@@ -2106,10 +2106,10 @@ function drawPlay(now) {
     ctx.globalAlpha = 1;
   }
   if (G.banner && now >= G.banner.t0 && now < G.banner.t0 + G.banner.dur) {
-    const b = G.banner, k = (now - b.t0) / b.dur, since = now - b.bump;
+    const b = G.banner, since = now - b.bump;
     const e = x => 1 - Math.pow(1 - Math.max(0, Math.min(1, x)), 3);
     const s = b.cont ? (since < 0 ? 1 : 1 + 0.15 * (1 - e(since / 0.2))) : 1 + 0.5 * (1 - e((now - b.t0) / 0.25));
-    ctx.globalAlpha = 1 - Math.max(0, k - 0.7) / 0.3;
+    ctx.globalAlpha = Math.max(0, Math.min(1, (b.t0 + b.dur - now) / (0.3 * (b.cont ? 0.9 : b.dur))));
     outlined(since < 0 && b.prev ? b.prev : b.text, W / 2, OY + ROWS * TS / 2 - 40, 40 * s, b.color);
     ctx.globalAlpha = 1;
   }
